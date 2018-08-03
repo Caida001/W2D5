@@ -33,9 +33,11 @@ class DynamicArray
   end
 
   def [](i)
+    @store[i]
   end
 
   def []=(i, val)
+    @store[i] = val
   end
 
   def capacity
@@ -43,12 +45,25 @@ class DynamicArray
   end
 
   def include?(val)
+    (0...capacity).each do |i|
+      return true if self[i] == val
+    end
+    false
   end
 
   def push(val)
+    if self.count < capacity
+      self[count] = val
+    else
+      resize!
+      self[count] = val
+    end
+    @count += 1
   end
 
   def unshift(val)
+    if self.count < capacity
+
   end
 
   def pop
@@ -81,5 +96,10 @@ class DynamicArray
   private
 
   def resize!
+    new_arr = StaticArray.new(capacity * 2)
+    (0...capacity).each do |i|
+      new_arr[i] = self[i]
+    end
+    @store = new_arr
   end
 end
